@@ -19,7 +19,8 @@ if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME]):
     raise ValueError("Missing database configuration in .env file")
 
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:HJdQqIUCNrMzsqbRpneWGrJKRWIpSTUH@switchback.proxy.rlwy.net:59783/railway"
 
 #print for debugging
 print("DB URL:", SQLALCHEMY_DATABASE_URL)
