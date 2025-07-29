@@ -41,7 +41,7 @@ def get_db():
 def submit_form(
     name: str = Form(...),
     address: str = Form(...),
-    contact: int = Form(...),
+    contact: str = Form(...),
     image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):

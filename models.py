@@ -11,6 +11,6 @@ class FormData(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     address = Column(String, index=True)
-    contact = Column(Integer, index=True)
+    contact = Column(String, index=True)
     image = Column(String, nullable=False)
     
