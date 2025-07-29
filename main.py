@@ -66,3 +66,8 @@ def submit_form(
 @app.get("/records/")
 def get_records(db: Session = Depends(get_db)):
     return db.query(models.FormData).all()
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
