@@ -6,27 +6,28 @@ import models
 import os
 import database
 
+# Create DB tables
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
-
-# Allow frontend to call backend
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins= ["https://info-form-frontend.vercel.app"],
+    allow_origins=["https://info-form-frontend.vercel.app"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Serve uploaded files
+
 app.mount("/uploads", StaticFiles(directory=UPLOAD_FOLDER), name="uploads")
 
-# Dependency
+# Dependency for DB session
 def get_db():
     db = database.SessionLocal()
     try:
@@ -34,6 +35,8 @@ def get_db():
     finally:
         db.close()
 
+
+#submit
 @app.post("/submit/")
 def submit_form(
     name: str = Form(...),
@@ -42,12 +45,12 @@ def submit_form(
     image: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
-    # Save uploaded image to disk
+    
     image_path = os.path.join(UPLOAD_FOLDER, image.filename)
     with open(image_path, "wb") as f:
         f.write(image.file.read())
 
-    # Save data including image filename to DB (only filename)
+    # Save form data
     form_data = models.FormData(
         name=name,
         address=address,
@@ -58,6 +61,7 @@ def submit_form(
     db.commit()
 
     return {"message": "Data saved successfully"}
+
 
 @app.get("/records/")
 def get_records(db: Session = Depends(get_db)):
